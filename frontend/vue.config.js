@@ -4,5 +4,8 @@ module.exports = {
     proxy: {
       '/discovery': { target: 'http://localhost:3000/discovery' }
     }
+  },
+  configureWebpack: {
+    devtool: 'source-map'
   }
 }
