@@ -4,7 +4,7 @@
       <h2 class="container">Search Documents</h2>
     </header>
     <div class="container">
-      <search-form :query="query"></search-form>
+      <search-form :query="query" v-on:$onSubmit="onSubmit"></search-form>
     </div>
   </div>
 </template>
@@ -19,6 +19,12 @@ export default {
   data () {
     return {
       query: 'this is test'
+    }
+  },
+  methods: {
+    onSubmit (query) {
+      console.log('got data from child el', query)
+      this.query = query
     }
   }
 }
