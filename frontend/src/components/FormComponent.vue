@@ -1,7 +1,7 @@
 <template>
-  <div>
+  <form v-on:submit.prevent="onSubmit">
     <input type="text" v-model="value">
-  </div>
+  </form>
 </template>
 
 <script>
@@ -14,7 +14,13 @@ export default {
   },
   watch: {
     query (newV, oldV) {
+      console.log('query changed', newV)
       this.value = newV
+    }
+  },
+  methods: {
+    onSubmit () {
+      this.$emit('$onSubmit', this.value)
     }
   }
 }
