@@ -10,7 +10,12 @@
 </template>
 
 <script>
+// models
+import SearchModel from './models/SearchModel.js'
+
+// Components
 import FormComponent from './components/FormComponent.vue'
+
 export default {
   name: 'app',
   components: {
@@ -25,6 +30,11 @@ export default {
     onSubmit (query) {
       console.log('got data from child el', query)
       this.query = query
+      this.search(this.query)
+    },
+    search (query) {
+      SearchModel.list(query)
+        .then(documents => console.log(documents))
     }
   }
 }

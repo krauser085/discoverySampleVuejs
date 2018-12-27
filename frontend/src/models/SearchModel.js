@@ -2,7 +2,7 @@ const tag = '[SearchModel]'
 
 export default {
   // get document from discovery
-  list(query) {
+  list (query) {
     console.log(tag, 'list()')
     if (window.fetch) {
       return fetch('/documents', {
@@ -13,16 +13,15 @@ export default {
         .then(res => res.json())
         .then(json => json.documents)
         .catch(err => { throw new Error(err) })
-    }
-    else {
+    } else {
       // for IE11
-      return new Promise((res, rej) => {
+      return new Promise((resolve, reject) => {
         const xhr = new XMLHttpRequest()
         xhr.open('POST', '/documents', true)
         xhr.setRequestHeader('Content-type', 'application/json')
         xhr.onload = function () {
           let documents = JSON.parse(this.responseText).documents
-          res(documents)
+          resolve(documents)
         }
         xhr.send(JSON.stringify({ query }))
       })
