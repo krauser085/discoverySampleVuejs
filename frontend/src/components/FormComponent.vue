@@ -1,6 +1,7 @@
 <template>
   <form v-on:submit.prevent="onSubmit">
     <input type="text" v-model="value">
+    <input type="reset" v-on:click="onReset">
   </form>
 </template>
 
@@ -21,6 +22,9 @@ export default {
   methods: {
     onSubmit () {
       this.$emit('$onSubmit', this.value)
+    },
+    onReset () {
+      this.$emit('$onReset')
     }
   }
 }

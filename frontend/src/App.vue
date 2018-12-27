@@ -4,8 +4,10 @@
       <h2 class="container">Search Documents</h2>
     </header>
     <div class="container">
-      <search-form :query="query" v-on:$onSubmit="onSubmit"></search-form>
-      <result-view :documents="documents" :query="query"></result-view>
+      <search-form :query="query" v-on:$onSubmit="onSubmit" v-on:$onReset="onReset"></search-form>
+      <div v-if="submitted">
+        <result-view :documents="documents" :query="query"></result-view>
+      </div>
     </div>
   </div>
 </template>
@@ -18,6 +20,8 @@ import SearchModel from './models/SearchModel.js'
 import FormComponent from './components/FormComponent.vue'
 import ResultComponent from './components/ResultComponent.vue'
 
+const tag = '[App.vue]'
+
 export default {
   name: 'app',
   components: {
@@ -27,18 +31,28 @@ export default {
   data () {
     return {
       query: '',
+      submitted: false,
       documents: []
     }
   },
   methods: {
-    onSubmit (query) {
-      console.log('got data from child el', query)
-      this.search(query)
-        .then(() => this.query = query)
-    },
     search (query) {
       return SearchModel.list(query)
-        .then(documents => this.documents = documents)
+        .then(documents => {
+          this.documents = documents
+          this.query = query
+        })
+    },
+    onSubmit (query) {
+      console.log(tag, 'onSubmit()', query)
+      this.submitted = true
+      this.search(query)
+    },
+    onReset () {
+      console.log(tag, 'onReset()')
+      this.submitted = false
+      this.documents = []
+      this.query = ''
     }
   }
 }
