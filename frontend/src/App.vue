@@ -5,6 +5,7 @@
     </header>
     <div class="container">
       <search-form :query="query" v-on:$onSubmit="onSubmit"></search-form>
+      <result-view :documents="documents" :query="query"></result-view>
     </div>
   </div>
 </template>
@@ -15,26 +16,29 @@ import SearchModel from './models/SearchModel.js'
 
 // Components
 import FormComponent from './components/FormComponent.vue'
+import ResultComponent from './components/ResultComponent.vue'
 
 export default {
   name: 'app',
   components: {
-    'search-form': FormComponent
+    'search-form': FormComponent,
+    'result-view': ResultComponent
   },
   data () {
     return {
-      query: 'this is test'
+      query: '',
+      documents: []
     }
   },
   methods: {
     onSubmit (query) {
       console.log('got data from child el', query)
-      this.query = query
-      this.search(this.query)
+      this.search(query)
+        .then(() => this.query = query)
     },
     search (query) {
-      SearchModel.list(query)
-        .then(documents => console.log(documents))
+      return SearchModel.list(query)
+        .then(documents => this.documents = documents)
     }
   }
 }
