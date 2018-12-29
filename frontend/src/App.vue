@@ -1,9 +1,9 @@
 <template>
   <div>
     <header>
-      <h2 class="container">Search Documents</h2>
+      <h2 class="g_container">Search Documents</h2>
     </header>
-    <div class="container">
+    <div class="g_container">
       <search-form :query="query" v-on:$onSubmit="onSubmit" v-on:$onReset="onReset"></search-form>
       <div v-if="submitted">
         <result-view :documents="documents" :query="query"></result-view>
@@ -58,6 +58,13 @@ export default {
 }
 </script>
 
-<style lang="sass" scoped>
+<style lang="scss" scoped>
+// local Variables
+$m_main-border: 1px #ccc solid;
 
+header {
+  border-bottom: $m_main-border;
+  padding: 15px 0  15px 0;
+  text-align: center;
+}
 </style>
