@@ -1,7 +1,7 @@
 <template>
   <form v-on:submit.prevent="onSubmit">
-    <input class="g_border" type="text" v-model="value">
-    <button type="reset" v-on:click="onReset">X</button>
+    <input type="text" class="g_border" v-model="value">
+    <button type="reset" v-if="value.length" v-on:click="onReset">X</button>
   </form>
 </template>
 
