@@ -1,9 +1,10 @@
 <template>
-  <div v-if="documents.length">
+  <div v-if="documents.length" class="g_border">
     <ul>
-      <li v-for="document of documents" :key="document.id" class="g_border" >
+      <li v-for="document of documents" :key="document.id">
         <div><b>Document ID : </b>{{document.id}}</div>
         <div><b>Text : </b>{{document.text}}</div>
+        <hr>
       </li>
     </ul>
   </div>
@@ -23,8 +24,12 @@ ul {
   li {
     display: flex;
     flex-direction: column;
-    border-bottom: 0;
-    padding: 15px;
+    padding: 5px 15px 5px 15px;
+
+    hr {
+      width: 100%;
+      border-bottom: 1px #ccc solid;
+    }
   }
 }
 </style>
