@@ -5,6 +5,7 @@
     </header>
     <div class="g_container">
       <search-form :query="query" v-on:$onSubmit="onSubmit" v-on:$onReset="onReset"></search-form>
+      <tabs></tabs>
       <div v-if="submitted">
         <result-view :documents="documents" :query="query"></result-view>
       </div>
@@ -15,9 +16,11 @@
 <script>
 // models
 import SearchModel from './models/SearchModel.js'
+import HistoryModel from './models/HistoryModel.js'
 
 // Components
 import FormComponent from './components/FormComponent.vue'
+import TabComponent from './components/TabComponent.vue'
 import ResultComponent from './components/ResultComponent.vue'
 
 const tag = '[App.vue]'
@@ -26,6 +29,7 @@ export default {
   name: 'app',
   components: {
     'search-form': FormComponent,
+    'tabs': TabComponent,
     'result-view': ResultComponent
   },
   data () {
