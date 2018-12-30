@@ -12,7 +12,7 @@
         </div>
       </div>
       <div v-else>
-        <history-view></history-view>
+        <history-view :history="history"></history-view>
       </div>
     </div>
   </div>
@@ -45,11 +45,13 @@ export default {
       submitted: false,
       documents: [],
       tabNames: ['searchResult', 'searchHistory'],
-      selectedTab: ''
+      selectedTab: '',
+      history: []
     }
   },
   created () {
     this.selectedTab = this.tabNames[0]
+    this.getHistory()
   },
   methods: {
     search (query) {
@@ -57,6 +59,8 @@ export default {
         .then(documents => {
           this.documents = documents
           this.query = query
+          this.setHistory(query)
+          this.getHistory()
         })
     },
     onSubmit (query) {
@@ -73,6 +77,14 @@ export default {
     onSelectTab(view) {
       console.log(tag, `onSelectTab(${view})`)
       this.selectedTab = view
+    },
+    getHistory() {
+      console.log(tag, 'getHistory()')
+      this.history = HistoryModel.getHistory()
+    },
+    setHistory(newHistory) {
+      console.log(tag, `setHistory(${newHistory})`)
+      HistoryModel.setHistory(newHistory)
     }
   }
 }
