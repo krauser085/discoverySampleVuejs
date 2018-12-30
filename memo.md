@@ -2,6 +2,8 @@
 
 # Component 관련
 1. Component Options
+    - created()
+        - 초기화시 상태를 설정할 수 있는 함수
     - props
         - 상위 Parent로 부터 값을 가져온다. parent 가 인스턴스를 생성하면서 인수를 넘겨주는 느낌
         - 전달 되는 인수들은 배열 형식으로 전달 되어야 함.
