@@ -5,9 +5,14 @@
     </header>
     <div class="g_container">
       <search-form :query="query" v-on:$onSubmit="onSubmit" v-on:$onReset="onReset"></search-form>
-      <tabs></tabs>
-      <div v-if="submitted">
-        <result-view :documents="documents" :query="query"></result-view>
+      <tabs :tabs="tabNames" v-on:$select="onSelectTab"></tabs>
+      <div v-if="selectedTab === tabNames[0]">
+        <div v-if="submitted">
+          <result-view :documents="documents" :query="query"></result-view>
+        </div>
+      </div>
+      <div v-else>
+        <history-view></history-view>
       </div>
     </div>
   </div>
@@ -22,6 +27,7 @@ import HistoryModel from './models/HistoryModel.js'
 import FormComponent from './components/FormComponent.vue'
 import TabComponent from './components/TabComponent.vue'
 import ResultComponent from './components/ResultComponent.vue'
+import HistoryComponent from './components/HistoryComponent.vue'
 
 const tag = '[App.vue]'
 
@@ -30,14 +36,20 @@ export default {
   components: {
     'search-form': FormComponent,
     'tabs': TabComponent,
-    'result-view': ResultComponent
+    'result-view': ResultComponent,
+    'history-view': HistoryComponent
   },
   data () {
     return {
       query: '',
       submitted: false,
-      documents: []
+      documents: [],
+      tabNames: ['searchResult', 'searchHistory'],
+      selectedTab: ''
     }
+  },
+  created () {
+    this.selectedTab = this.tabNames[0]
   },
   methods: {
     search (query) {
@@ -57,6 +69,10 @@ export default {
       this.submitted = false
       this.documents = []
       this.query = ''
+    },
+    onSelectTab(view) {
+      console.log(tag, `onSelectTab(${view})`)
+      this.selectedTab = view
     }
   }
 }
@@ -68,7 +84,7 @@ $m_main-border: 1px #ccc solid;
 
 header {
   border-bottom: $m_main-border;
-  padding: 15px 0  15px 0;
+  padding: 15px 0 15px 0;
   text-align: center;
 }
 </style>

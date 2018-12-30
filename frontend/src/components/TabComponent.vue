@@ -1,25 +1,27 @@
 <template>
   <ul>
-    <li :class="{ active: isResult }" v-on:click="onClick(resultView)">Result</li>
-    <li :class="{ active: isHistory }" v-on:click="onClick(historyView)">History</li>
+    <li :class="{ active: isResult }" v-on:click="onClick(tabs[0])">Result</li>
+    <li :class="{ active: isHistory }" v-on:click="onClick(tabs[1])">History</li>
   </ul>
 </template>
 
 <script>
 export default {
-  data() {
+  props: ['tabs'],
+  data () {
     return {
-      resultView: 'resultView',
-      historyView: 'historyView',
       isResult: true,
       isHistory: false
     }
   },
   methods: {
-    onClick(view) {
-      console.log('TEST')
-      this.isResult = view === this.resultView ? true : false
-      this.isHistory = view === this.historyView ? true : false
+    onClick (view) {
+      this.togleTab(view)
+      this.$emit('$select', view)
+    },
+    togleTab (view) {
+      this.isResult = view === this.tabs[0] ? true : false
+      this.isHistory = view === this.tabs[1] ? true : false
     }
   }
 }
@@ -37,7 +39,6 @@ ul {
     border-bottom: 1px solid #ccc;
     background-color: #eee;
     color: #999;
-
   }
   .active {
     background-color: #2ac1bc;
