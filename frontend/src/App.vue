@@ -9,6 +9,7 @@
       <router-view
         :documents="documents"
         :submitted="submitted"
+        :history="history"
         v-on:$submit="onSubmit"
         v-on:$init="onSubmit"
       ></router-view>
@@ -38,13 +39,11 @@ export default {
       query: '',
       submitted: false,
       documents: [],
-      tabNames: ['searchResult', 'searchHistory'],
-      selectedTab: '',
+      tabNames: ['search', 'history'],
       history: []
     }
   },
   created () {
-    this.selectedTab = this.tabNames[0]
     this.getHistory()
   },
   methods: {
@@ -52,14 +51,12 @@ export default {
       return SearchModel.list(query)
         .then(documents => {
           this.documents = documents
-          this.setHistory(query)
-          this.getHistory()
           this.submitted = true
-          window.location.href = `/#/search/${query}`
         })
     },
     onSubmit (query) {
       console.log(tag, 'onSubmit()', query)
+      this.query = query
       this.search(query)
     },
     onReset () {
@@ -70,7 +67,7 @@ export default {
     },
     onSelectTab (view) {
       console.log(tag, `onSelectTab(${view})`)
-      this.selectedTab = view
+      window.location.href = `/#/${view}${view === this.tabNames[0] ? '/' + this.query : ''}`
     },
     getHistory () {
       console.log(tag, 'getHistory()')
@@ -79,6 +76,12 @@ export default {
     setHistory (newHistory) {
       console.log(tag, `setHistory(${newHistory})`)
       HistoryModel.setHistory(newHistory)
+    }
+  },
+  watch: {
+    query (value) {
+      this.setHistory(value)
+      this.getHistory()
     }
   }
 }

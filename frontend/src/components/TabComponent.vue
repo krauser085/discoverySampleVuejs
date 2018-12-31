@@ -23,6 +23,11 @@ export default {
       this.isResult = view === this.tabs[0] ? true : false
       this.isHistory = view === this.tabs[1] ? true : false
     }
+  },
+  watch: {
+    $route (to, from) {
+      this.togleTab(to.name)
+    }
   }
 }
 </script>

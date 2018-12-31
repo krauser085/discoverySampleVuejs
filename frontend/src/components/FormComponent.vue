@@ -9,23 +9,14 @@
 export default {
   props: ['query'],
   data () {
-    return {
-      value: this.query
-    }
+    return { value: this.query }
   },
   watch: {
-    query (newV, oldV) {
-      console.log('query changed', newV)
-      this.value = newV
-    }
+    query (newV, oldV) { this.value = newV }
   },
   methods: {
-    onSubmit () {
-      this.$emit('$submit', this.value)
-    },
-    onReset () {
-      this.$emit('$reset')
-    }
+    onSubmit () { window.location.href = `/#/search/${this.value}` },
+    onReset () { this.$emit('$reset') }
   }
 }
 </script>
@@ -34,7 +25,7 @@ export default {
 form {
   position: relative;
 
-  input[type=text] {
+  input[type="text"] {
     display: block;
     box-sizing: border-box;
     width: 100%;
@@ -44,7 +35,7 @@ form {
     line-height: 1.5;
   }
 
-  button[type=reset] {
+  button[type="reset"] {
     border-radius: 50%;
     background-color: #ccc;
     color: white;
