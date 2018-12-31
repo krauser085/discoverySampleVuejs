@@ -21,10 +21,10 @@ export default {
   },
   methods: {
     onSubmit () {
-      this.$emit('$onSubmit', this.value)
+      this.$emit('$submit', this.value)
     },
     onReset () {
-      this.$emit('$onReset')
+      this.$emit('$reset')
     }
   }
 }

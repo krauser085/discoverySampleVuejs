@@ -4,16 +4,14 @@
       <h2 class="g_container">Search Documents</h2>
     </header>
     <div class="g_container">
-      <search-form :query="query" v-on:$onSubmit="onSubmit" v-on:$onReset="onReset"></search-form>
+      <search-form :query="query" v-on:$submit="onSubmit" v-on:$reset="onReset"></search-form>
       <tabs :tabs="tabNames" v-on:$select="onSelectTab"></tabs>
-      <div v-if="selectedTab === tabNames[0]">
-        <div v-if="submitted">
-          <result-view :documents="documents" :query="query"></result-view>
-        </div>
-      </div>
-      <div v-else>
-        <history-view :history="history"></history-view>
-      </div>
+      <router-view
+        :documents="documents"
+        :submitted="submitted"
+        v-on:$submit="onSubmit"
+        v-on:$init="onSubmit"
+      ></router-view>
     </div>
   </div>
 </template>
@@ -26,8 +24,6 @@ import HistoryModel from './models/HistoryModel.js'
 // Components
 import FormComponent from './components/FormComponent.vue'
 import TabComponent from './components/TabComponent.vue'
-import ResultComponent from './components/ResultComponent.vue'
-import HistoryComponent from './components/HistoryComponent.vue'
 
 const tag = '[App.vue]'
 
@@ -36,8 +32,6 @@ export default {
   components: {
     'search-form': FormComponent,
     'tabs': TabComponent,
-    'result-view': ResultComponent,
-    'history-view': HistoryComponent
   },
   data () {
     return {
@@ -58,31 +52,31 @@ export default {
       return SearchModel.list(query)
         .then(documents => {
           this.documents = documents
-          this.query = query
           this.setHistory(query)
           this.getHistory()
+          this.submitted = true
+          window.location.href = `/#/search/${query}`
         })
     },
     onSubmit (query) {
       console.log(tag, 'onSubmit()', query)
-      this.submitted = true
       this.search(query)
     },
     onReset () {
-      console.log(tag, 'onReset()')
       this.submitted = false
+      console.log(tag, 'onReset()')
       this.documents = []
       this.query = ''
     },
-    onSelectTab(view) {
+    onSelectTab (view) {
       console.log(tag, `onSelectTab(${view})`)
       this.selectedTab = view
     },
-    getHistory() {
+    getHistory () {
       console.log(tag, 'getHistory()')
       this.history = HistoryModel.getHistory()
     },
-    setHistory(newHistory) {
+    setHistory (newHistory) {
       console.log(tag, `setHistory(${newHistory})`)
       HistoryModel.setHistory(newHistory)
     }

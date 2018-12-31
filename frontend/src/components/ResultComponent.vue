@@ -2,18 +2,36 @@
   <div v-if="documents.length" class="g_border">
     <ul>
       <li v-for="document of documents" :key="document.id">
-        <div><b>Document ID : </b>{{document.id}}</div>
-        <div><b>Text : </b>{{document.text}}</div>
+        <div>
+          <b>Document ID :</b>
+          {{document.id}}
+        </div>
+        <div>
+          <b>Text :</b>
+          {{document.text}}
+        </div>
         <hr>
       </li>
     </ul>
   </div>
-  <div v-else>「{{ query }}」 に関連するドキュメントがありません。</div>
+  <div v-else-if="submitted">「{{ $route.params.query }}」 に関連するドキュメントがありません。</div>
 </template>
 
 <script>
+const tag = '[ResultComponent]'
+
 export default {
-  props: ['documents', 'query']
+  props: ['documents', 'submitted'],
+  created () {
+    console.log(tag, 'created()')
+    this.init()
+  },
+  methods: {
+    init () { this.$emit('$init', this.$route.params.query) }
+  },
+  watch: {
+    $route (to, from) { this.init() }
+  }
 }
 </script>
 
