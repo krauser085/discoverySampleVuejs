@@ -67,7 +67,7 @@ export default {
     },
     onSelectTab (view) {
       console.log(tag, `onSelectTab(${view})`)
-      window.location.href = `/#/${view}${view === this.tabNames[0] ? '/' + this.query : ''}`
+      this.$router.push(`/${view}${view === this.tabNames[0] ? '/' + this.query : ''}`)
     },
     getHistory () {
       console.log(tag, 'getHistory()')

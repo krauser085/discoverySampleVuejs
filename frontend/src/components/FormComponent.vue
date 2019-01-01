@@ -15,7 +15,7 @@ export default {
     query (newV, oldV) { this.value = newV }
   },
   methods: {
-    onSubmit () { window.location.href = `/#/search/${this.value}` },
+    onSubmit () { this.$router.push(`/search/${this.value}`) },
     onReset () { this.$emit('$reset') }
   }
 }
