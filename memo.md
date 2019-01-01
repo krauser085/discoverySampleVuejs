@@ -51,3 +51,9 @@
             </div>
             ```
 # Style 관련
+
+# Vue-router 사용
+    - 설치하기
+        ```bash
+        npm install vue-router
+        ```
